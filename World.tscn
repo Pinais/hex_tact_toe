@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cliaulfb4ulyu"]
 
-[ext_resource type="Script" path="res://Grid.gd" id="1_kgmbn"]
+[ext_resource type="Script" path="res://HexGrid.gd" id="1_kgmbn"]
 
-[node name="Grid" type="Node2D"]
+[node name="HexGrid" type="Node2D"]
 script = ExtResource("1_kgmbn")
