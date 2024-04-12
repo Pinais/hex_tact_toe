@@ -11,6 +11,11 @@ config_version=5
 [application]
 
 config/name="Tower Defense"
-run/main_scene="res://World.tscn"
+run/main_scene="res://HexGrid.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
+run/max_fps=1000
 config/icon="res://icon.svg"
+
+[debug]
+
+settings/stdout/print_fps=true

@@ -1,22 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://k1npqfriy4tr"]
+[gd_scene load_steps=4 format=3 uid="uid://k1npqfriy4tr"]
 
 [ext_resource type="Script" path="res://Hex.gd" id="1_r2dkp"]
+[ext_resource type="Texture2D" uid="uid://c5dpfj1nbc82w" path="res://icon.svg" id="2_2ej56"]
 [ext_resource type="Texture2D" uid="uid://35rj40l3ko76" path="res://hexagon.png" id="3_m8h1p"]
 
 [node name="Hex" type="Node2D"]
 script = ExtResource("1_r2dkp")
-insidesScale = 0.95
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
-texture_repeat = 3
-color = Color(0, 0.701961, 0.380392, 1)
-polygon = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-
-[node name="Polygon2DBorder" type="Polygon2D" parent="."]
-texture_repeat = 3
-color = Color(0.831373, 0.415686, 0.717647, 1)
+texture = ExtResource("2_2ej56")
 polygon = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
 texture = ExtResource("3_m8h1p")
