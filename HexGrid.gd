@@ -43,6 +43,7 @@ func create_grid(_xMax : int, _yMax : int):
 			elif ((x%2)!=0):
 				newHex.position = Vector2(x*t2tOffset,y*f2fOffset+rowOffset)
 			add_child(newHex)
+			newHex.label_hex(str(x,"/", y))
 			grid[x].append(newHex)
 
 
@@ -55,16 +56,19 @@ func search_on_grid(mouse_pos : Vector2):
 			for x in range(0,xMax):
 				for y in range(0,yMax):
 					abs_distance = abs(mouse_pos.distance_to(grid[x][y].global_position))
+					print(x,"/",y)
 					if abs_distance < radius:
 						if abs_distance < c2f:
-							grid[x][y].modulate = Color.BLACK
+							grid[x][y].modulate = Color.CORNFLOWER_BLUE
 							return grid[x][y]
-						if abs_distance < closest_distance :
+						elif abs_distance < closest_distance :
 							closest_distance = abs_distance
 							closest = grid[x][y]
 			if closest != null:
 				closest.modulate = Color.DARK_ORANGE
 				return closest
+			return null
+
 
 func _unhandled_input(event):
 	if event.is_action_pressed("selecionar"):

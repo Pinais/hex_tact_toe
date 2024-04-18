@@ -3,6 +3,7 @@ extends Node2D
 
 @onready var poly : Polygon2D = $Polygon2D
 @onready var insides : Polygon2D = $Polygon2DBorder
+@onready var hexLabel : Label = $Label
 
 
 @export_range(0.0, 1.0, 0.05) var insidesScale : float = 0.1
@@ -23,3 +24,7 @@ func _ready():
 	insides.polygon = corners
 	poly.visible = IsOutsideVisible
 	insides.scale = Vector2(insidesScale, insidesScale)
+
+
+func label_hex(text : String):
+	hexLabel.text = text
