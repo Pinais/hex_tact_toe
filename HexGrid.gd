@@ -1,8 +1,8 @@
 extends Node2D
 
 @export var radius : float = 100		#center to tip
-@export var xMax : int = 4				#max amount of hexes in a row
-@export var yMax : int = 4				#max amount of rows
+@export var xMax : int = 10				#max amount of hexes in a row
+@export var yMax : int = 10				#max amount of rows
 @export var origin : Vector2 = Vector2(0,0)
 
 var hex : PackedScene = preload("res://Hex.tscn")
@@ -21,13 +21,14 @@ var gridStart : Vector2 = Vector2(gridStartX, gridStartY)
 var gridEndX : float = (xMax-1)*t2tOffset+radius
 var gridEndY : float = (yMax-1)*f2fOffset+rowOffset*2
 var gridEnd : Vector2 = Vector2(gridEndX, gridEndY)
+var selectedHex
+var lastSelectedHex
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	create_grid(xMax, yMax)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
 
@@ -47,7 +48,7 @@ func create_grid(_xMax : int, _yMax : int):
 			grid[x].append(newHex)
 
 
-func search_on_grid(mouse_pos : Vector2):
+func mouse_to_grid(mouse_pos : Vector2):
 	if mouse_pos.x > gridStart.x && mouse_pos.y > gridStart.y:
 		if mouse_pos.x < gridEnd.x && mouse_pos.y < gridEnd.y:
 			var closest = null
@@ -56,20 +57,45 @@ func search_on_grid(mouse_pos : Vector2):
 			for x in range(0,xMax):
 				for y in range(0,yMax):
 					abs_distance = abs(mouse_pos.distance_to(grid[x][y].global_position))
-					print(x,"/",y)
 					if abs_distance < radius:
 						if abs_distance < c2f:
-							grid[x][y].modulate = Color.CORNFLOWER_BLUE
 							return grid[x][y]
 						elif abs_distance < closest_distance :
 							closest_distance = abs_distance
 							closest = grid[x][y]
-			if closest != null:
-				closest.modulate = Color.DARK_ORANGE
-				return closest
+							if x+1<xMax and closest_distance > abs(mouse_pos.distance_to(grid[x+1][y].global_position)):
+								closest_distance = abs(mouse_pos.distance_to(grid[x+1][y].global_position))
+								closest = grid[x+1][y]
+							if y+1<yMax and closest_distance > abs(mouse_pos.distance_to(grid[x][y+1].global_position)):
+								closest_distance = abs(mouse_pos.distance_to(grid[x][y+1].global_position))
+								closest = grid[x][y+1]
+							if x+1<xMax and y-1>0 and closest_distance > abs(mouse_pos.distance_to(grid[x+1][y-1].global_position)):
+								closest_distance = abs(mouse_pos.distance_to(grid[x+1][y-1].global_position))
+								closest = grid[x+1][y-1]
+							if x+1<xMax and y+1<yMax and closest_distance > abs(mouse_pos.distance_to(grid[x+1][y+1].global_position)):
+								closest_distance = abs(mouse_pos.distance_to(grid[x+1][y+1].global_position))
+								closest = grid[x+1][y+1]
+							return closest
 			return null
 
 
+func select_hex(incomingHex : Node2D):
+	lastSelectedHex = selectedHex
+	selectedHex = incomingHex
+	if lastSelectedHex is Node2D:
+		lastSelectedHex.modulate_current_color()
+	if selectedHex is Node2D:
+		selectedHex.modulate = Color.YELLOW
+
+
 func _unhandled_input(event):
-	if event.is_action_pressed("selecionar"):
-		search_on_grid(get_global_mouse_position())
+	if event.is_action_pressed("select"):
+		var newHex : Node2D = mouse_to_grid(get_global_mouse_position())
+		select_hex(newHex)
+	if event.is_action_pressed("disableHex"):
+		if selectedHex is Node2D:
+			selectedHex.disable_hex()
+	if event.is_action_pressed("enableHex"):
+		if selectedHex is Node2D:
+			selectedHex.enable_hex()
+

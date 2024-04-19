@@ -9,10 +9,12 @@ extends Node2D
 @export_range(0.0, 1.0, 0.05) var insidesScale : float = 0.1
 @export var IsOutsideVisible : bool = false
 
-
 var radius : float = 100			#center to tip distance
 var t2t : float = radius * 2		#tip to tip distance
-var f2f : float = radius * 1.73	#flat to flat distance
+var f2f : float = radius * 1.73		#flat to flat distance
+var status : bool =  true
+var currentColor : Color = Color.WHITE
+
 
 var corners : PackedVector2Array = [Vector2(-radius,0), Vector2(-t2t*0.25,-f2f*0.5),
 									Vector2(t2t*0.25,-f2f*0.5), Vector2(radius,0), 
@@ -26,5 +28,19 @@ func _ready():
 	insides.scale = Vector2(insidesScale, insidesScale)
 
 
+func modulate_current_color():
+	modulate = currentColor
+
+
 func label_hex(text : String):
 	hexLabel.text = text
+
+
+func disable_hex():
+	status = false
+	currentColor = Color.TOMATO
+	modulate_current_color()
+func enable_hex():
+	status = true
+	currentColor = Color.LIME_GREEN
+	modulate_current_color()

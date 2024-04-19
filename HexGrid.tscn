@@ -4,7 +4,3 @@
 
 [node name="HexGrid" type="Node2D"]
 script = ExtResource("1_ve8b4")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(332, 148)
-zoom = Vector2(1.44, 1.44)
