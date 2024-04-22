@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://bv6lsu62qoub6"]
+
+[ext_resource type="Script" path="res://world.gd" id="1_78mrp"]
+[ext_resource type="PackedScene" uid="uid://cliaulfb4ulyu" path="res://HexGrid.tscn" id="2_5kwum"]
+[ext_resource type="Script" path="res://Controller.gd" id="2_6f8mc"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_78mrp")
+
+[node name="Controller" type="Node" parent="."]
+script = ExtResource("2_6f8mc")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="HexGrid" parent="." instance=ExtResource("2_5kwum")]

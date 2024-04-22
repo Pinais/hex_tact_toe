@@ -82,20 +82,26 @@ func mouse_to_grid(mouse_pos : Vector2):
 func select_hex(incomingHex : Node2D):
 	lastSelectedHex = selectedHex
 	selectedHex = incomingHex
+	
+	var reselected_last_hex = lastSelectedHex is Node2D and selectedHex is Node2D and lastSelectedHex == selectedHex
+	if reselected_last_hex:
+		selectedHex = null
+	
 	if lastSelectedHex is Node2D:
 		lastSelectedHex.modulate_current_color()
 	if selectedHex is Node2D:
 		selectedHex.modulate = Color.YELLOW
 
+func select_hex_at(_pos : Vector2):
+	var selected = mouse_to_grid(_pos)
+	if(selected is Node2D):
+		select_hex(selected)
 
-func _unhandled_input(event):
-	if event.is_action_pressed("select"):
-		var newHex : Node2D = mouse_to_grid(get_global_mouse_position())
-		select_hex(newHex)
-	if event.is_action_pressed("disableHex"):
-		if selectedHex is Node2D:
-			selectedHex.disable_hex()
-	if event.is_action_pressed("enableHex"):
-		if selectedHex is Node2D:
-			selectedHex.enable_hex()
 
+func disable_selected():
+	if selectedHex is Node2D:
+		selectedHex.disable_hex()
+
+func enable_selected():
+	if selectedHex is Node2D:
+		selectedHex.enable_hex()
